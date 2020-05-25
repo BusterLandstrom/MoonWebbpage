@@ -19,12 +19,19 @@ var color = ["blue","red","yellow","pink","purple","green","orange","magenta","b
 var colorRand = "blue";
 var imgWidth = window.innerHeight/8;
 var imgHeight = window.innerWidth/8;
+var titleWidth = WIDTH/2;
+var titleHeight = HEIGHT/2;
 var patreonX = window.innerWidth - window.innerWidth/2;
 var patreonY = window.innerHeight - window.innerHeight/2;
 var youtubeY = patreonY + imgHeight + 10;
+var kickstarterY = youtubeY + imgHeight + 10;
+var moonTitleX = WIDTH - WIDTH/2 - titleWidth/2;
+var moonTitleY = HEIGHT - 715 - titleHeight/2;
 var patreonImg = document.getElementById('PatreonImg');
 var bgr = document.getElementById("bgr");
 var ytpic = document.getElementById("ytpic");
+var kickstarter = document.getElementById("kickstarter");
+var moonTitle = document.getElementById("moonTitle");
 
 /**/ //createText function for easy text creation
 createText = function(fillStyles, fonts, fontsize, text, x, y) {
@@ -39,6 +46,7 @@ createImage = function(img, x, y, dheight, dwidth){
     ctx.drawImage(img, x, y, dheight, dwidth);
 };
 /**/
+
 function update(){
     requestAnimationFrame(update);
     ctx.clearRect(0,0,WIDTH,HEIGHT);
@@ -58,9 +66,12 @@ function update(){
     ctx.strokeStyle = colorRand;
     imgWidth = WIDTH/9;
     imgHeight = HEIGHT/9;
+    titleWidth = WIDTH/2;
+    titleHeight = HEIGHT/2;
     patreonX = WIDTH - WIDTH/2 - imgWidth/2;
-    patreonY = HEIGHT - HEIGHT/2- imgHeight/2;
+    patreonY = HEIGHT - HEIGHT/2- imgHeight/2 + 75;
     youtubeY = patreonY + imgHeight + 10;
+    kickstarterY = youtubeY + imgHeight + 10;
 
     ballX += xVel;
     ballY += 4 * yVel;
@@ -90,6 +101,8 @@ function update(){
     /**/
     createImage(patreonImg, patreonX, patreonY, imgWidth, imgHeight);
     createImage(ytpic, patreonX, youtubeY, imgWidth, imgHeight);
+    createImage(kickstarter, patreonX, kickstarterY, imgWidth, imgHeight);
+    createImage(moonTitle, moonTitleX, moonTitleY, titleWidth, titleHeight);
 
     
 }
@@ -105,7 +118,7 @@ function onPatreonClickEvent(e){
        window.open("https://www.patreon.com/BusterLandstrom");
     }
  };
- /**/
+/**/
 
 /**/ //patreon button click function
 function onYouTubeClickEvent(e){
@@ -118,13 +131,27 @@ function onYouTubeClickEvent(e){
        window.open("https://www.youtube.com/channel/UCMS3myfHCv1bG5zSjROC_zA");
     }
  };
- /**/
+/**/
+
+/**/ //patreon button click function
+function onKickstarterClickEvent(e){
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    var endX = patreonX + imgWidth;
+    var endY = kickstarterY + imgHeight;
+    if((x>=patreonX && y>=youtubeY) && (x<=endX && y<=endY)){
+       window.open("https://www.kickstarter.com/projects/moonproductions/farmer-time-a-magical-farming-adventure");
+    }
+ };
+/**/
 
 update();
 
 canvas.addEventListener('mousedown', function(e) {
     onPatreonClickEvent(e);
     onYouTubeClickEvent(e);
+    onKickstarterClickEvent(e);
 })
 
 /**/ //Appending canvas to main
