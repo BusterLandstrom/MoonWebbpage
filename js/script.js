@@ -15,13 +15,14 @@ var ballX = 0;
 var ballY = 0;
 var yVel = 1;
 var xVel = 1;
-var color = ["blue","red","yellow","pink","purple","green","orange","aquamarine","LightPink"]; 
+var color = ["blue","red","yellow","pink","purple","green","orange","magenta","brown"]; 
 var colorRand = "blue";
-var patreonWidth = window.innerHeight/4;
-var patreonHeight = window.innerWidth/4;
-var patreonX = window.innerWidth - window.innerWidth/2 - patreonWidth;
-var patreonY = window.innerHeight - window.innerHeight/2 - patreonHeight;
+var imgWidth = window.innerHeight/8;
+var imgHeight = window.innerWidth/8;
+var patreonX = window.innerWidth - window.innerWidth/2;
+var patreonY = window.innerHeight - window.innerHeight/2;
 var patreonImg = document.getElementById('PatreonImg');
+var bgr = document.getElementById("bgr");
 
 /**/ //createText function for easy text creation
 createText = function(fillStyles, fonts, fontsize, text, x, y) {
@@ -39,30 +40,32 @@ createImage = function(img, x, y, dheight, dwidth){
 function update(){
     requestAnimationFrame(update);
     ctx.clearRect(0,0,WIDTH,HEIGHT);
-    WIDTH = window.innerWidth - 22;
-    HEIGHT = window.innerHeight - 22;
+    WIDTH = window.innerWidth - 30;
+    HEIGHT = window.innerHeight - 39;
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
 
     ctx.beginPath();
     ctx.arc(ballX,ballY,80,0,2*Math.PI);
+    
+    createImage(bgr, 0, 0, canvas.width, canvas.height);
 
     // Fill with gradient
     ctx.fillStyle = colorRand;
     ctx.fill();
     ctx.strokeStyle = colorRand;
     ctx.stroke();
-    patreonWidth = window.innerHeight/4;
-    patreonHeight = window.innerWidth/4;
-    patreonX = window.innerWidth - window.innerWidth/2 - patreonWidth;
-    patreonY = window.innerHeight - window.innerHeight/2 - patreonHeight;
+    imgWidth = HEIGHT/9;
+    imgHeight = WIDTH/9;
+    patreonX = WIDTH - WIDTH/2 - imgWidth;
+    patreonY = HEIGHT - HEIGHT/2 - imgHeight;
 
     ballX += xVel;
     ballY += 4 * yVel;
 
     /**/ // Checking for bounds On the x axis
-    if (ballX >= window.innerWidth - 80) {
-        ballX = window.innerWidth - 80;
+    if (ballX >= WIDTH - 80) {
+        ballX = WIDTH - 80;
         xVel = -4;
         colorRand = color[Math.floor((Math.random() * 9))];
     } else if (ballX <= 0 + 80) {
@@ -73,8 +76,8 @@ function update(){
     /**/
 
     /**/ // Checking for bounds On the y axis
-    if (ballY >= window.innerHeight - 80) {
-        ballY = window.innerHeight - 80;
+    if (ballY >= HEIGHT - 80) {
+        ballY = HEIGHT - 80;
         yVel = -1;
         colorRand = color[Math.floor((Math.random() * 9))];
     } else if (ballY <= 0 + 80) {
@@ -83,7 +86,7 @@ function update(){
         colorRand = color[Math.floor((Math.random() * 9))];
     }
     /**/
-    createImage(patreonImg, patreonX, patreonY, patreonHeight, patreonWidth);
+    createImage(patreonImg, patreonX, patreonY, imgHeight, imgWidth);
     
 }
 
@@ -92,8 +95,8 @@ function onPatreonClickEvent(e){
     var rect = canvas.getBoundingClientRect();
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
-    var endX = patreonX + patreonWidth;
-    var endY = patreonY + patreonHeight;
+    var endX = patreonX + imgWidth;
+    var endY = patreonY + imgHeight;
     if((x>=patreonX && y>=patreonY) && (x<=endX && y<=endY)){
        window.open('https://www.patreon.com/BusterLandstrom');
     }
